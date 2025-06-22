@@ -1,0 +1,97 @@
+✅ Google Colab: Notebook completo para tu modelo predictivo
+# Paso 1: Montar Google Drive y leer el archivo Excel
+from google.colab import drive
+drive.mount('/content/drive')
+import pandas as pd
+# Ruta del archivo
+file_path = '/content/drive/MyDrive/Colab Notebooks/OpenDay/Data_Modelo.xlsx'
+df = pd.read_excel(file_path)
+# Mostrar las primeras filas
+print("Primeras filas del dataset:")
+display(df.head())
+
+# Paso 2: Información general
+print("\nResumen de columnas y tipos:")
+df.info()
+
+# Paso 3: Codificar columnas binarias SI/NO
+binary_cols = ['Compra_carpeta', 'Asiste_evento', 'Inscripcion_efectiva']
+for col in binary_cols:
+    df[col] = df[col].map({'SI': 1, 'NO': 0})
+
+# Paso 4: Codificar columnas categóricas en formato binario (One-Hot Encoding)
+df_encoded = pd.get_dummies(df)
+print("\nDataset después de codificación:")
+display(df_encoded.head())
+
+# Paso 5: Separar variables predictoras (X) y objetivo (y)
+X = df_encoded.drop('Inscripcion_efectiva', axis=1)
+y = df_encoded['Inscripcion_efectiva']
+# División en entrenamiento y prueba
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+print("\nTamaño de los conjuntos:")
+print("Entrenamiento:", X_train.shape)
+print("Prueba:", X_test.shape)
+
+# Paso 6: Entrenar modelo con XGBoost
+!pip install xgboost
+from xgboost import XGBClassifier
+model = XGBClassifier()
+model.fit(X_train, y_train)
+
+# Paso 7: Evaluar el modelo
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+y_pred = model.predict(X_test)
+print("\nResultados del modelo:")
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nMatriz de confusión:\n", confusion_matrix(y_test, y_pred))
+print("\nReporte de clasificación:\n", classification_report(y_test, y_pred))
+
+# Paso 8: Guardar el modelo
+import joblib
+joblib.dump(model, '/content/drive/MyDrive/Colab Notebooks/OpenDay/modelo_inscripcion.pkl')
+
+✅ BLOQUE FINAL PARA EJECUTAR EN GOOGLE COLAB
+# Paso 1: Montar Google Drive y cargar el modelo
+from google.colab import drive
+import joblib
+import pandas as pd
+drive.mount('/content/drive')
+# Cargar modelo entrenado
+modelo_path = '/content/drive/MyDrive/Colab Notebooks/OpenDay/modelo_inscripcion.pkl'
+model = joblib.load(modelo_path)
+
+# Paso 2: Cargar nuevo Excel con datos a predecir
+nuevo_path = '/content/drive/MyDrive/Colab Notebooks/OpenDay/Nuevos_Postulantes_Test.xlsx'
+df_nuevo = pd.read_excel(nuevo_path)
+
+# Paso 3: Preprocesar igual que el dataset original
+# Codificar SI/NO
+for col in ['Compra_carpeta', 'Asiste_evento']:
+    df_nuevo[col] = df_nuevo[col].map({'SI': 1, 'NO': 0})
+# One-hot encoding
+df_nuevo_codificado = pd.get_dummies(df_nuevo)
+# Alinear columnas con el modelo
+X_modelo = model.get_booster().feature_names
+for col in X_modelo:
+    if col not in df_nuevo_codificado.columns:
+        df_nuevo_codificado[col] = 0
+df_nuevo_codificado = df_nuevo_codificado[X_modelo]
+
+# Paso 4: Hacer predicciones y calcular tasa de conversión
+predicciones = model.predict(df_nuevo_codificado)
+df_nuevo['Prediccion_Matricula'] = predicciones
+# Calcular tasa de conversión
+total = len(predicciones)
+positivos = sum(predicciones)
+tasa_conversion = (positivos / total) * 100
+print(df_nuevo[['Edad_Postulante', 'Prediccion_Matricula']])
+print(f"\n✅ Total de postulantes: {total}")
+print(f"✅ Predichos como inscritos: {positivos}")
+print(f"🎯 Tasa de conversión estimada: {tasa_conversion:.2f}%")
+
+# Paso 5: Guardar resultados en un nuevo Excel
+salida_path = '/content/drive/MyDrive/Colab Notebooks/OpenDay/Predicciones_Resultantes.xlsx'
+df_nuevo.to_excel(salida_path, index=False)
+print(f"\n📂 Resultados guardados en: {salida_path}")
