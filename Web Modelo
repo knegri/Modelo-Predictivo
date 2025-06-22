@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo Predicción de Matrícula</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 30px;
+    }
+    .formulario {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #resultado {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f5e9;
+      border-left: 5px solid #4caf50;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="formulario">
+    <h2>Simulador de Predicción de Matrícula</h2>
+    <label for="edad">Edad del postulante:</label>
+    <input type="number" id="edad" min="2" max="6">
+
+    <label for="genero">Género:</label>
+    <select id="genero">
+      <option value="FEMENINO">Femenino</option>
+      <option value="MASCULINO">Masculino</option>
+    </select>
+
+    <label for="motivo">Motivación del apoderado:</label>
+    <select id="motivo">
+      <option value="PROPUESTA EDUCATIVA">Propuesta educativa</option>
+      <option value="INFRAESTRUCTURA IDONEA">Infraestructura idónea</option>
+      <option value="ENSEÑANZA EN VALORES">Enseñanza en valores</option>
+    </select>
+
+    <label for="evento">Asistió al evento:</label>
+    <select id="evento">
+      <option value="SI">Sí</option>
+      <option value="NO">No</option>
+    </select>
+
+    <label for="carpeta">Compró carpeta:</label>
+    <select id="carpeta">
+      <option value="SI">Sí</option>
+      <option value="NO">No</option>
+    </select>
+
+    <button onclick="predecir()">Predecir Matrícula</button>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function predecir() {
+      const edad = parseInt(document.getElementById('edad').value);
+      const genero = document.getElementById('genero').value;
+      const motivo = document.getElementById('motivo').value;
+      const evento = document.getElementById('evento').value;
+      const carpeta = document.getElementById('carpeta').value;
+
+      // Simulación ficticia de probabilidad
+      let score = 0;
+      if (carpeta === 'SI') score += 40;
+      if (evento === 'SI') score += 25;
+      if (motivo === 'PROPUESTA EDUCATIVA') score += 10;
+      if (edad === 3 || edad === 4) score += 15;
+
+      // Simulación de resultado
+      const probabilidad = Math.min(score + Math.random() * 10, 98).toFixed(2);
+
+      const resultado = document.getElementById('resultado');
+      resultado.style.display = 'block';
+      resultado.innerHTML = `
+        <strong>Probabilidad estimada de matrícula:</strong><br>
+        <span style="font-size: 1.5em; color: #2e7d32">${probabilidad}%</span>
+      `;
+    }
+  </script>
+</body>
+</html>
