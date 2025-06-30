@@ -1,71 +1,73 @@
-Pagina: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario Predictivo</title>
+  <title>Formulario de Registro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f0f2f5;
+      background-color: #f7f9fc;
       margin: 0;
       padding: 40px;
       display: flex;
       justify-content: center;
     }
     .form-container {
-      background-color: #fff;
+      background: white;
       padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 24px;
-      color: #1a1a1a;
+    h2 {
       text-align: center;
-    }
-    .form-row {
-      display: flex;
-      gap: 20px;
       margin-bottom: 20px;
+      font-size: 24px;
+      color: #1a1a1a;
+    }
+    .panel {
+      margin-bottom: 40px;
+    }
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0056b3;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #e1e1e1;
+      padding-bottom: 6px;
     }
     .form-group {
       display: flex;
       flex-direction: column;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    .form-group-inline {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      margin-top: 8px;
+      margin-bottom: 16px;
     }
     label {
       margin-bottom: 6px;
-      font-weight: 600;
+      font-weight: 500;
       color: #333;
     }
-    input[type="text"], select {
-      width: 100%;
+    input[type="text"], input[type="date"], select {
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 14px;
-      background-color: #fafafa;
+      background-color: #f9f9f9;
     }
     input[type="radio"] {
       margin-right: 6px;
     }
+    .form-group-inline {
+      display: flex;
+      gap: 20px;
+      margin-top: 8px;
+    }
     button {
       width: 100%;
       padding: 14px;
-      margin-top: 20px;
       background-color: #007BFF;
       color: white;
       font-size: 16px;
@@ -82,104 +84,145 @@ Pagina: <!DOCTYPE html>
 </head>
 <body>
   <div class="form-container">
-    <h1>Formulario Predictivo</h1>
-    <form>
-      <div class="form-row">
+    <h2>Formulario de Registro del Postulante</h2>
+    <form id="registroForm">
+
+      <!-- PANEL 1 -->
+      <div class="panel">
+        <div class="panel-title">Datos del Postulante</div>
+
         <div class="form-group">
-          <label for="dni">DNI del Postulante</label>
-          <input type="text" id="dni" name="dni">
+          <label for="nombres">Apellidos y Nombres</label>
+          <input type="text" id="nombres" name="nombres" required>
         </div>
+
         <div class="form-group">
-          <label for="edad">Edad del Postulante</label>
-          <select id="edad" name="edad">
+          <label for="dni">Documento de Identidad (DNI)</label>
+          <input type="text" id="dni" name="dni" required>
+        </div>
+
+        <div class="form-group">
+          <label for="nacimiento">Fecha de Nacimiento</label>
+          <input type="date" id="nacimiento" name="nacimiento" required>
+        </div>
+
+        <div class="form-group">
+          <label for="genero">Género</label>
+          <select id="genero" name="genero" required>
             <option value="">Seleccionar</option>
-            <option>2</option><option>3</option><option>4</option><option>5</option>
+            <option>Femenino</option>
+            <option>Masculino</option>
           </select>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="genero">Género del Postulante</label>
-        <select id="genero" name="genero">
-          <option value="">Seleccionar</option>
-          <option>Femenino</option><option>Masculino</option>
-        </select>
-      </div>
+      <!-- PANEL 2 -->
+      <div class="panel">
+        <div class="panel-title">Información de Contacto y Postulación</div>
 
-      <div class="form-group">
-        <label for="nivel_socio">Nivel Socioeconómico</label>
-        <select id="nivel_socio" name="nivel_socio">
-          <option value="">Seleccionar</option>
-          <option>Alto</option><option>Medio</option><option>Bajo</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="nivel_socio">Nivel Socioeconómico</label>
+          <select id="nivel_socio" name="nivel_socio" required>
+            <option value="">Seleccionar</option>
+            <option>Alto</option>
+            <option>Medio</option>
+            <option>Bajo</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="distrito">Distrito de Domicilio</label>
-        <select id="distrito" name="distrito">
-          <option value="">Seleccionar</option>
-          <option>Los Olivos</option><option>Lima Sur</option><option>Callao</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="distrito">Distrito de Domicilio</label>
+          <select id="distrito" name="distrito" required>
+            <option value="">Seleccionar</option>
+            <option>Los Olivos</option>
+            <option>Lima Norte</option>
+            <option>Callao</option>
+            <option>Otros</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="contacto">Medio de Contacto</label>
-        <select id="contacto" name="contacto">
-          <option value="">Seleccionar</option>
-          <option>WhatsApp</option><option>Teléfono</option><option>Correo</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="contacto">Medio de Contacto</label>
+          <select id="contacto" name="contacto" required>
+            <option value="">Seleccionar</option>
+            <option>WhatsApp</option>
+            <option>Teléfono</option>
+            <option>Correo electrónico</option>
+            <option>Redes sociales</option>
+          </select>
+        </div>
 
-      <div class="form-row">
         <div class="form-group">
           <label for="nivel_postulacion">Nivel de Postulación</label>
-          <select id="nivel_postulacion" name="nivel_postulacion">
+          <select id="nivel_postulacion" name="nivel_postulacion" required>
             <option value="">Seleccionar</option>
-            <option>Inicial</option><option>Primaria</option><option>Secundaria</option>
+            <option>Inicial</option>
+            <option>Primaria</option>
+            <option>Secundaria</option>
           </select>
         </div>
+
         <div class="form-group">
           <label for="grado_postulacion">Grado de Postulación</label>
-          <select id="grado_postulacion" name="grado_postulacion">
+          <select id="grado_postulacion" name="grado_postulacion" required>
             <option value="">Seleccionar</option>
-            <option>3 años</option><option>4 años</option><option>5 años</option>
+            <option>3 años</option>
+            <option>4 años</option>
+            <option>5 años</option>
+            <option>1ro primaria</option>
+            <option>2do primaria</option>
+            <option>1ro secundaria</option>
           </select>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>¿Compró Carpeta?</label>
-        <div class="form-group-inline">
-          <label><input type="radio" name="carpeta" value="Sí"> Sí</label>
-          <label><input type="radio" name="carpeta" value="No"> No</label>
+      <!-- PANEL 3 -->
+      <div class="panel">
+        <div class="panel-title">Interacciones con el Colegio</div>
+
+        <div class="form-group">
+          <label>¿Cuenta con la carpeta de admisión?</label>
+          <div class="form-group-inline">
+            <label><input type="radio" name="carpeta" value="Sí"> Sí</label>
+            <label><input type="radio" name="carpeta" value="No"> No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="evento">¿Asistió a alguno de nuestros eventos?</label>
+          <select id="evento" name="evento">
+            <option value="">Seleccionar</option>
+            <option>Visita Guiada</option>
+            <option>Open Day</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="beneficios">¿Qué beneficios le gustaría tener o a cuáles aplica?</label>
+          <select id="beneficios" name="beneficios">
+            <option value="">Seleccionar</option>
+            <option>Envío de correos personalizados</option>
+            <option>Descuento Open Day</option>
+            <option>Hermano o Exalumno</option>
+            <option>Talleres de verano gratuito</option>
+            <option>Visita guiada personal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="interes">¿Cuál es su interés en el colegio?</label>
+          <select id="interes" name="interes">
+            <option value="">Seleccionar</option>
+            <option>Propuesta educativa</option>
+            <option>Infraestructura idónea</option>
+            <option>Enseñanza en valores</option>
+            <option>Ingreso preferente</option>
+            <option>Otros</option>
+          </select>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>¿Asistió al Evento?</label>
-        <div class="form-group-inline">
-          <label><input type="radio" name="evento" value="Sí"> Sí</label>
-          <label><input type="radio" name="evento" value="No"> No</label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="estrategia">Estrategia Incentiva Aplicada</label>
-        <select id="estrategia" name="estrategia">
-          <option value="">Seleccionar</option>
-          <option>Descuento</option><option>Evento Gratis</option><option>Entrega Material</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="motivacion">Motivación del Apoderado</label>
-        <select id="motivacion" name="motivacion">
-          <option value="">Seleccionar</option>
-          <option>Alta</option><option>Media</option><option>Baja</option>
-        </select>
-      </div>
-
-      <button type="submit">Guardar</button>
+      <button type="submit">Enviar registro</button>
     </form>
   </div>
 </body>
